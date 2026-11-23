@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: walid-ai-office
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    plan: starter
+    disk:
+      name: walid-office-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_PATH
+        value: /var/data/walid_office.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OWNER_PASSWORD
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
